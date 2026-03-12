@@ -17,21 +17,12 @@ struct AppView: View {
         AppViewBuilder(
             isSignedIn: $isSignedIn,
             signedInView: {
-                ZStack {
-                    Color.red.ignoresSafeArea()
-                    Text("Show Tabbar")
-                }
+                TabBarView()
             },
             signedOutView: {
-                ZStack {
-                    Color.blue.ignoresSafeArea()
-                    Text("Onboarding View")
-                }
+                WelcomeView()
             }
         )
-        .onTapGesture {
-            isSignedIn.toggle()
-        }
     }
 }
 
