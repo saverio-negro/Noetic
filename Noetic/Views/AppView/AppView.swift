@@ -10,27 +10,28 @@ import SwiftUI
 // Root View that routes between the `TabView` (Signed in) and `OnboardingView (Signed out)
 struct AppView: View {
     
-    @AppStorage("isSignedIn") var isSignedIn: Bool = false
+    @State var appState: AppState = AppState()
     
     var body: some View {
         
         AppViewBuilder(
-            isSignedIn: $isSignedIn,
-            signedInView: {
+            hasCompletedOnboarding: appState.hasCompletedOnboarding,
+            tabBarView: {
                 TabBarView()
             },
-            signedOutView: {
+            onboardingView: {
                 WelcomeView()
             }
         )
+        .environment(appState)
     }
 }
 
-#Preview("AppView — Signed In") {
-    AppView(isSignedIn: true)
+#Preview("AppView — TabBar") {
+    AppView(appState: AppState(hasCompletedOnboarding: true))
 }
 
-#Preview("AppView — Signed Out") {
-    AppView(isSignedIn: false)
+#Preview("AppView — Onboarding") {
+    AppView(appState: AppState(hasCompletedOnboarding: false))
 }
 

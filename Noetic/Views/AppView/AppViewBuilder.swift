@@ -7,41 +7,41 @@
 
 import SwiftUI
 
-struct AppViewBuilder<SignedInView: View, SignedOutView: View>: View {
+struct AppViewBuilder<TabBarView: View, OnBoardingView: View>: View {
     
-    @Binding var isSignedIn: Bool
-    @ViewBuilder var signedInView: SignedInView
-    @ViewBuilder var signedOutView: SignedOutView
+    let hasCompletedOnboarding: Bool
+    @ViewBuilder var tabBarView: TabBarView
+    @ViewBuilder var onboardingView: OnBoardingView
     
     var body: some View {
         ZStack {
-            if isSignedIn {
-                self.signedInView
+            if hasCompletedOnboarding {
+                self.tabBarView
                     .transition(AnyTransition.move(edge: .trailing))
             } else {
-                self.signedOutView
+                self.onboardingView
                     .transition(AnyTransition.move(edge: .leading))
             }
         }
-        .animation(.smooth, value: isSignedIn)
+        .animation(.smooth, value: hasCompletedOnboarding)
     }
 }
 
 fileprivate struct PreviewView: View {
     
-    @State private var isSignedIn: Bool = false
+    @State var appState: AppState = AppState(hasCompletedOnboarding: false)
     
     var body: some View {
         
         AppViewBuilder(
-            isSignedIn: $isSignedIn,
-            signedInView: {
+            hasCompletedOnboarding: appState.hasCompletedOnboarding,
+            tabBarView: {
                 ZStack {
                     Color.red.ignoresSafeArea()
                     Text("Show Tabbar")
                 }
             },
-            signedOutView: {
+            onboardingView: {
                 ZStack {
                     Color.blue.ignoresSafeArea()
                     Text("Onboarding View")
@@ -49,7 +49,7 @@ fileprivate struct PreviewView: View {
             }
         )
         .onTapGesture {
-            isSignedIn.toggle()
+            appState.hasCompletedOnboarding ? appState.restartOnboarding() : appState.finishOnboarding()
         }
     }
 }
