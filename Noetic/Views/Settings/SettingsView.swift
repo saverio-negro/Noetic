@@ -32,7 +32,7 @@ struct SettingsView: View {
         
         Task {
             try? await Task.sleep(for: .seconds(1))
-            self.appState.restartOnboarding()
+            self.appState.signOut()
         }
     }
 }

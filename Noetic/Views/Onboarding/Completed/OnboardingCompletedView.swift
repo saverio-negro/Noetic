@@ -23,7 +23,6 @@ struct OnboardingCompletedView: View {
                 // Call-to-action button
                 Text("Finish")
                     .callToActionButton()
-                    
             }
         }
         .padding(15)
@@ -31,7 +30,7 @@ struct OnboardingCompletedView: View {
     
     func onFinishButtonPressed() {
         // Logic to complete onboarding
-        self.appState.finishOnboarding()
+        self.appState.signIn()
     }
 }
 

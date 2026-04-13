@@ -9,13 +9,13 @@ import SwiftUI
 
 struct AppViewBuilder<TabBarView: View, OnBoardingView: View>: View {
     
-    let hasCompletedOnboarding: Bool
+    let isSignedIn: Bool
     @ViewBuilder var tabBarView: TabBarView
     @ViewBuilder var onboardingView: OnBoardingView
     
     var body: some View {
         ZStack {
-            if hasCompletedOnboarding {
+            if isSignedIn {
                 self.tabBarView
                     .transition(AnyTransition.move(edge: .trailing))
             } else {
@@ -23,18 +23,18 @@ struct AppViewBuilder<TabBarView: View, OnBoardingView: View>: View {
                     .transition(AnyTransition.move(edge: .leading))
             }
         }
-        .animation(.smooth, value: hasCompletedOnboarding)
+        .animation(.smooth, value: isSignedIn)
     }
 }
 
 fileprivate struct PreviewView: View {
     
-    @State var appState: AppState = AppState(hasCompletedOnboarding: false)
+    @State var appState: AppState = AppState(isSignedIn: false)
     
     var body: some View {
         
         AppViewBuilder(
-            hasCompletedOnboarding: appState.hasCompletedOnboarding,
+            isSignedIn: appState.isSignedIn,
             tabBarView: {
                 ZStack {
                     Color.red.ignoresSafeArea()
@@ -49,7 +49,7 @@ fileprivate struct PreviewView: View {
             }
         )
         .onTapGesture {
-            appState.hasCompletedOnboarding ? appState.restartOnboarding() : appState.finishOnboarding()
+            appState.isSignedIn ? appState.signOut() : appState.signIn()
         }
     }
 }

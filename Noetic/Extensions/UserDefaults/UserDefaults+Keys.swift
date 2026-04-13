@@ -11,7 +11,7 @@ extension UserDefaults {
     
     struct Keys {
         
-        static let hasCompletedOnboarding = "hasCompletedOnboarding"
+        static let isSignedIn = "isSignedIn"
     }
 }
 

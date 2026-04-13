@@ -10,21 +10,21 @@ import SwiftUI
 @Observable
 class AppState {
     
-    private(set) var hasCompletedOnboarding: Bool {
+    private(set) var isSignedIn: Bool {
         didSet {
-            UserDefaults.hasCompletedOnboarding = hasCompletedOnboarding
+            UserDefaults.isSignedIn = isSignedIn
         }
     }
     
-    init(hasCompletedOnboarding: Bool = UserDefaults.hasCompletedOnboarding) {
-        self.hasCompletedOnboarding = hasCompletedOnboarding
+    init(isSignedIn: Bool = UserDefaults.isSignedIn) {
+        self.isSignedIn = isSignedIn
     }
     
-    func finishOnboarding() {
-        self.hasCompletedOnboarding = true
+    func signIn() {
+        self.isSignedIn = true
     }
     
-    func restartOnboarding() {
-        self.hasCompletedOnboarding = false
+    func signOut() {
+        self.isSignedIn = false
     }
 }
