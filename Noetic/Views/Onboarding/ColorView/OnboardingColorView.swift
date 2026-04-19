@@ -1,0 +1,86 @@
+//
+//  OnboardingColorView.swift
+//  Noetic
+//
+//  Created by Saverio Negro on 4/19/26.
+//
+
+import SwiftUI
+
+struct OnboardingColorView: View {
+    
+    @State private var selectedColor: Color?
+    let profileColors: [Color] = [.red, .green, .orange, .blue, .mint, .purple, .cyan, .teal, .indigo]
+    
+    var body: some View {
+        ScrollView {
+            colorGrid
+                .padding(.horizontal, 24)
+        }
+        .safeAreaInset(
+            edge: .bottom,
+            alignment: .center,
+            spacing: 16,
+            content: {
+                ZStack {
+                    if selectedColor != nil {
+                        ctaButton
+                            .padding(24)
+                            .transition(AnyTransition.move(edge: .bottom))
+                    }
+                }
+                .frame(minHeight: 15)
+                .frame(maxWidth: .infinity)
+                .background(Color(uiColor: .systemBackground))
+            }
+        )
+        .animation(.bouncy, value: selectedColor)
+    }
+    
+    private var colorGrid: some View {
+        LazyVGrid(
+            columns: Array(repeating: GridItem(.flexible(), spacing: 16), count: 3),
+            alignment: .center,
+            spacing: 16,
+            pinnedViews: [.sectionHeaders],
+            content: {
+                Section(
+                    content: {
+                        ForEach(profileColors, id: \.self) { color in
+                            Circle()
+                                .fill(.accent)
+                                .overlay {
+                                    color
+                                        .clipShape(Circle())
+                                        .padding(
+                                            selectedColor == color ? 10 : 0
+                                        )
+                                }
+                                .onTapGesture {
+                                    selectedColor = color
+                                }
+                        }
+                    },
+                    header: {
+                        Text("Select a profile color")
+                            .font(.headline)
+                    })
+            }
+        )
+    }
+    
+    private var ctaButton: some View {
+        NavigationLink(destination: {
+            OnboardingColorView()
+        }, label: {
+            Text("Continue")
+                .callToActionButton()
+        })
+    }
+}
+
+#Preview {
+    NavigationStack {
+        OnboardingColorView()
+    }
+}
