@@ -28,7 +28,7 @@ struct ImageLoaderView: View {
                 WebImage(url: URL(string: urlString))
                     .resizable()
                     .aspectRatio(contentMode: resizingMode)
-//                    .allowsHitTesting(false)
+                    .allowsHitTesting(false)
             }
             .clipped()
     }

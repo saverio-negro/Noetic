@@ -41,6 +41,7 @@ struct OnboardingIntroView: View {
         }
         .padding(24)
         .font(.title3)
+        .toolbar(.hidden, for: .navigationBar)
     }
 }
 
